@@ -67,6 +67,7 @@ Plug 'Qingluan/VimExtend'
 
 " Initialize plugin system
 call plug#end()
+let $TMPDIR = "$HOME/.vim-tmp"
 EOF
 
 mkdir -p ~/.config/nvim
