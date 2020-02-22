@@ -4,7 +4,7 @@ let g:Cmds=["VimExtend -r", "VimExtend", "sort", "text"]
 function! PipeToNewBufGo(cmd)
     set splitright
     set cursorline
-    highlight Cursorline cterm=underline  ctermfg=green
+    highlight Cursorline cterm=underline  ctermbg=green ctermfg=white
     if a:cmd == "sort"
     execute "% !".a:cmd
     elseif a:cmd == "text"
