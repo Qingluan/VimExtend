@@ -20,6 +20,7 @@ func SendHTTPFromReader(r io.Reader) (header string, body string, err error) {
 	u, err := url.Parse("http://" + reqR.Host)
 	u.Path = path.Join(u.Path, reqR.URL.String())
 	req, _ = http.NewRequest(reqR.Method, u.String(), nil)
+	req.PostForm = reqR.PostForm
 	client := new(http.Client)
 	var outbuf []byte
 	if err == io.EOF {
