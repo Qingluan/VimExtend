@@ -13,7 +13,7 @@ function! PipeToNewBufGo(cmd)
     else
         let l:cmdStr='cat << EOF | '.a:cmd."\n". join(getline(1, '$'), "\n")
         " echo l:cmdStr
-        let output=system(shellescape(l:cmdStr)."\nEOF")
+        let output=system(shellescape(l:cmdStr)."EOF")
         vnew
         call setline(1, split(output, "\n"))
     endif
