@@ -27,7 +27,7 @@ fi
 
 cp -a plugin ~/.vim/plugged/VimExtend/
 
-cat << EOF >> ~/.vimrc
+cat << EOF > ~/.vimrc
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
