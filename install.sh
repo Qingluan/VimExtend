@@ -1,5 +1,6 @@
 #!/bin/bash
-
+export GOPATH="$HOME/go"
+export PATH="$PATH:$GOPATH/bin"
 if [ ! -f /usr/bin/vim ];then
   sudo apt install -y neovim 2>&1 1>/dev/null;
 fi
