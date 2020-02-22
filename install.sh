@@ -4,6 +4,14 @@ if [ ! -f /usr/bin/vim ];then
   apt install -y neovim 2>&1 1>/dev/null;
 fi
 
+if [ ! -d $GOPATH ];then
+  echo 'export GOPATH="$HOME/go"' >> ~/.bashrc
+  echo 'export PATH="$PATH:$GOPATH/bin"' >> ~/.bashrc
+  source ~/.bashrc
+  apt install -y golang
+  go get -v "github.com/Qingluan/VimExtend"
+fi
+
 if [ -d ~/.vim/plugged ];then
   mkdir -p ~/.vim/plugged/VimExtend
 else
