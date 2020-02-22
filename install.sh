@@ -67,6 +67,7 @@ Plug 'Qingluan/VimExtend'
 
 " Initialize plugin system
 call plug#end()
+let g:go_version_warning = 0
 EOF
 
 mkdir -p ~/.config/nvim
