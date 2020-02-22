@@ -1,16 +1,28 @@
-nnoremap <c-k> :PipeTo
-
+nnoremap <c-k> :PipeTo VimExtend -r
+nnoremap <c-s> :% !VimExtend -q
+let g:Cmds=["VimExtend -r", "VimExtend", "sort", "text"]
 function! PipeToNewBufGo(cmd)
     set splitright
     set cursorline
-    let output=system('cat << EOF | '.a:cmd."\n". join(getline(1, '$'), "\n") )
-    vnew
-    call setline(1, split(output, "\n"))
+    highlight Cursorline cterm=underline  ctermfg=green
+    if a:cmd == "sort"
+    execute "% !".a:cmd
+    elseif a:cmd == "text"
+    execute "% !w3m -dump -T text/html"
+    "   execute "PipeTo ". 'w3m -dump -T text/html'
+    else
+        let l:cmdStr='cat << EOF | '.a:cmd."\n". join(getline(1, '$'), "\n")
+        " echo l:cmdStr
+        let output=system(l:cmdStr)
+        vnew
+        call setline(1, split(output, "\n"))
+    endif
     execute("nnoremap <Space> :call LineToggle() <CR>")
+    execute("nnoremap  q :q!  <CR>")
 endfunction
 
 function! FuncList(ArgLead, cmdline, cursorpos ) abort
-    return join(["VimExtend", "sort"], "\n")
+    return join(g:Cmds, "\n")
 endfunction
 
 
