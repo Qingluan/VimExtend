@@ -12,6 +12,11 @@ if [ ! -d $GOPATH ];then
   go get -v "github.com/Qingluan/VimExtend"
 fi
 
+VimExtend -h 2>&1 1>/dev/null;
+if [ $? -ne 0 ];then
+  go get -v "github.com/Qingluan/VimExtend"
+fi
+
 if [ -d ~/.vim/plugged ];then
   mkdir -p ~/.vim/plugged/VimExtend
 else
