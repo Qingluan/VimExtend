@@ -6,10 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
-
 	// "net/http/httputils"
-	"net/url"
-	"path"
 )
 
 func SendHTTPFromReader(r io.Reader) (header string, body string, err error) {
@@ -17,10 +14,11 @@ func SendHTTPFromReader(r io.Reader) (header string, body string, err error) {
 	req := new(http.Request)
 	var reqR *http.Request
 	reqR, err = http.ReadRequest(buf)
-	u, err := url.Parse("http://" + reqR.Host)
-	u.Path = path.Join(u.Path, reqR.URL.String())
-	req, _ = http.NewRequest(reqR.Method, u.String(), nil)
+
+	// u.Path = path.Join(u.Path,)
+	req, _ = http.NewRequest(reqR.Method, reqR.URL.String(), nil)
 	req.PostForm = reqR.PostForm
+	req.Header = reqR.Header
 	client := new(http.Client)
 	var outbuf []byte
 	if err == io.EOF {
