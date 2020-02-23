@@ -128,15 +128,23 @@ if v:version >= 800
         endif
         let obj = extend(copy(g:JobBack), {'name': a:name})
         let obj.cmd = ["/bin/bash", "-c", a:cmd]
-        let obj.id = jobstart(obj.cmd, obj)
+        if has('nvim')
+            let obj.id = jobstart(obj.cmd, obj)
+        else
+            let obj.id = job_start(obj.cmd, obj)
+        endif
         $
         return obj
     endfunction
     fun! g:StartJob(cmd)
         let g:run_job=g:JobBack.new("ProxyServer", a:cmd)
     endfunction
-    command! -nargs=1 -complete=custom,FuncList Work call StartJob(<q-args>) 
-    command! -nargs=0 -bang WorkStop call jobstop(g:run_job.id)
+    command! -nargs=1 -complete=custom,FuncList Work call StartJob(<q-args>)
+    if has('nvim')
+        command! -nargs=0 -bang WorkStop call jobstop(g:run_job.id)
+    else
+    command! -nargs=0 -bang WorkStop call job_stop(g:run_job.id)
+    endif
 endif
 fun! s:listProxy()
     
