@@ -14,14 +14,43 @@ import (
 )
 
 var (
-	usereq bool
-	query  string
+	usereq      bool
+	proxyserver bool
+	query       string
+	getreq      string
+	logreq      string
+	hist        bool
 )
 
 func main() {
-	flag.BoolVar(&usereq, "r", false, "set true to read stdin to parse req then make request")
+	flag.BoolVar(&usereq, "r", true, "set true to read stdin to parse req then make request")
 	flag.StringVar(&query, "q", "a", "true to cssselect content from stdin")
+	flag.StringVar(&getreq, "g", "", "get url from proxy")
+	flag.StringVar(&logreq, "l", "", "log req by this domain")
+	flag.BoolVar(&hist, "ls", false, "show hist in proxy server")
+	flag.BoolVar(&proxyserver, "S", false, "set Server start")
+
 	flag.Parse()
+	if proxyserver {
+		utils.RunProxyServer("8089")
+		os.Exit(0)
+	}
+	if hist {
+		c := new(utils.ProxyCli)
+		fmt.Println(c.Hist())
+		os.Exit(0)
+	}
+	if logreq != "" {
+		c := new(utils.ProxyCli)
+		fmt.Println(c.AddCheck(logreq))
+		os.Exit(0)
+	}
+	if getreq != "" {
+		c := new(utils.ProxyCli)
+		fmt.Println(c.Get(getreq))
+		os.Exit(0)
+	}
+
 	if usereq {
 		reader := bufio.NewReader(os.Stdin)
 		// var output []rune
