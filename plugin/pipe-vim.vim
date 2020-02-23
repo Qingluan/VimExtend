@@ -1,7 +1,7 @@
 nnoremap <c-k> :PipeTo
 nnoremap <c-s> :% !VimExtend -r false  -q
 
-let g:Cmds=["VimExtend -r", "VimExtend", "sort", "text", "StartServer"]
+let g:Cmds=["StartServer", "VimExtend", "sort", "text"]
 let g:if_start_proxy_server=0
 let g:if_set_proxy_listen=0
 " let g:last_cmd=""
@@ -12,6 +12,8 @@ let g:if_set_proxy_listen=0
 set splitbelow
 function! PipeToNewBufGo(cmd)
     if a:cmd == "StartServer"
+        set laststatus=2
+        set statusline="Start Proxy Server"
         silent execute("ListProxy")
         " let g:last_cmd=cur_cmd
         " let g:cur_cmd="ListProxy"
@@ -117,7 +119,8 @@ if v:version >= 800
     fun! JobBack.new(name, cmd)
         if  bufwinnr("display-status") == -1
             new display-status
-            resize 2
+            " setlocal laststatus=0
+            hide
             "  if g:if_set_proxy_listen == 0 
             "      autocmd TextChanged <buffer>  :ListProxy
             "     let g:if_set_proxy_listen=1
