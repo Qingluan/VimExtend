@@ -53,10 +53,16 @@ function! LineToggle()
         nnoremap <buffer>  q :q!  <CR>
         nnoremap <buffer><Space> :call LineToggle() <CR>
         call setline(1, split(output, "\n"))
-    elseif line =~ 'https?://'
+    elseif line =~ 'http://'
 	let l:cmdStr='VimExtend -u "'.line.'"'
 	let out=system(l:cmdStr)
-	enew tmp
+	tabnew! 
+	nnoremap <buffer> q:q! <CR>
+	call setline(1, split(out, "\n"))
+    elseif line =~ 'https://'
+	let l:cmdStr='VimExtend -u "'.line.'"'
+	let out=system(l:cmdStr)
+	tabnew! 
 	nnoremap <buffer> q:q! <CR>
 	call setline(1, split(out, "\n"))
     elseif getline(1) =~ '^GET'

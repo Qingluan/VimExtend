@@ -19,6 +19,7 @@ var (
 	query       string
 	getreq      string
 	logreq      string
+	urlget      string
 	hist        bool
 )
 
@@ -27,12 +28,17 @@ func main() {
 	flag.StringVar(&query, "q", "a", "true to cssselect content from stdin")
 	flag.StringVar(&getreq, "g", "", "get url from proxy")
 	flag.StringVar(&logreq, "l", "", "log req by this domain")
+	flag.StringVar(&urlget, "u", "", "req by this url")
 	flag.BoolVar(&hist, "ls", false, "show hist in proxy server")
 	flag.BoolVar(&proxyserver, "S", false, "set Server start")
 
 	flag.Parse()
 	if proxyserver {
 		utils.RunProxyServer("8089")
+		os.Exit(0)
+	}
+	if urlget != "" {
+		fmt.Println(utils.SimpleGet(urlget))
 		os.Exit(0)
 	}
 	if hist {
