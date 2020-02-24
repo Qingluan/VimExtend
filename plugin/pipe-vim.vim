@@ -1,4 +1,3 @@
-nnoremap <c-k> :PipeTo
 nnoremap <c-s> :% !VimExtend -r false  -q
 
 let g:Cmds=["StartServer", "VimExtend", "sort", "text"]
@@ -54,6 +53,12 @@ function! LineToggle()
         nnoremap <buffer>  q :q!  <CR>
         nnoremap <buffer><Space> :call LineToggle() <CR>
         call setline(1, split(output, "\n"))
+    elseif line =~ 'https?://'
+	let l:cmdStr='VimExtend -u "'.line.'"'
+	let out=system(l:cmdStr)
+	enew tmp
+	nnoremap <buffer> q:q! <CR>
+	call setline(1, split(out, "\n"))
     elseif getline(1) =~ '^GET'
         let l:cmdStr='cat << EOF | VimExtend'."\n". join(getline(1, '$'), "\n")
         let output=system(l:cmdStr)
@@ -131,7 +136,7 @@ if v:version >= 800
         if has('nvim')
             let obj.id = jobstart(obj.cmd, obj)
         else
-            let obj.id = job_start(obj.cmd, obj)
+            let obj.id = job_start(join(obj.cmd," "), obj)
         endif
         $
         return obj
