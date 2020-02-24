@@ -14,6 +14,7 @@ function! PipeToNewBufGo(cmd)
     if a:cmd == "StartServer"
         set laststatus=2
         set statusline="Start Proxy Server"
+	set syntax=help
         silent execute("ListProxy")
         " let g:last_cmd=cur_cmd
         " let g:cur_cmd="ListProxy"
@@ -21,7 +22,6 @@ function! PipeToNewBufGo(cmd)
     endif
     setlocal splitright
     setlocal cursorline
-    highlight Cursorline cterm=underline  ctermbg=green ctermfg=white
     if a:cmd == "sort"
         execute "% !".a:cmd
     elseif a:cmd == "text"
@@ -54,16 +54,18 @@ function! LineToggle()
         nnoremap <buffer>  q :q!  <CR>
         nnoremap <buffer><Space> :call LineToggle() <CR>
         call setline(1, split(output, "\n"))
-    elseif line =~ 'http://'
+    elseif line =~ '^http://'
 	let l:cmdStr='VimExtend -u "'.line.'"'
 	let out=system(l:cmdStr)
 	tabnew! 
+	set syntax=html
 	nnoremap <buffer> q:q! <CR>
 	call setline(1, split(out, "\n"))
-    elseif line =~ 'https://'
+    elseif line =~ '^https://'
 	let l:cmdStr='VimExtend -u "'.line.'"'
 	let out=system(l:cmdStr)
 	tabnew! 
+	set syntax=html
 	nnoremap <buffer> q:q! <CR>
 	call setline(1, split(out, "\n"))
     elseif getline(1) =~ '^GET'
