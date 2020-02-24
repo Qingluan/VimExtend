@@ -1,4 +1,5 @@
 nnoremap <c-s> :% !VimExtend -r false  -q
+nnoremap <c-k> :PipeTo<SPACE>
 
 let g:Cmds=["StartServer", "VimExtend", "sort", "text"]
 let g:if_start_proxy_server=0
